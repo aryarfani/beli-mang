@@ -17,5 +17,5 @@ type User struct {
 
 const (
 	USER_ROLE  = "user"
-	ROLE_ADMIN = "admin"
+	ADMIN_ROLE = "admin"
 )

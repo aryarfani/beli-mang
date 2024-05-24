@@ -10,8 +10,8 @@ POST {{baseUrl}}/users/register
 Content-Type: application/json
 
 {
-    "username": "bambang",
-    "email":"bambang@gmail.com",
+    "username": "user3",
+    "email":"user3@gmail.com",
     "password" : "secret123"
 }
 
@@ -21,6 +21,27 @@ POST {{baseUrl}}/users/login
 Content-Type: application/json
 
 {
-    "username": "bambang",
+    "username": "userx",
+    "password" : "secret123"
+}
+
+### register admins
+
+POST {{baseUrl}}/admins/register
+Content-Type: application/json
+
+{
+    "username": "admin2",
+    "email": "admin2@gmail.com",
+    "password" : "secret123"
+}
+
+### login admin
+
+POST {{baseUrl}}/admins/login
+Content-Type: application/json
+
+{
+    "username": "admin",
     "password" : "secret123"
 }

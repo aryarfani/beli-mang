@@ -1,4 +1,4 @@
-package user
+package admin
 
 import (
 	"beli-mang/internal/entity"
@@ -9,8 +9,8 @@ import (
 )
 
 type Service interface {
-	Register(req RegisterUserRequest) (token string, err error)
-	Login(req LoginUserRequest) (token string, err error)
+	Register(req RegisterAdminRequest) (token string, err error)
+	Login(req LoginAdminRequest) (token string, err error)
 }
 
 type service struct {
@@ -23,15 +23,15 @@ func NewService(repo Repository) Service {
 	}
 }
 
-func (s *service) Register(req RegisterUserRequest) (token string, err error) {
+func (s *service) Register(req RegisterAdminRequest) (token string, err error) {
 	_, err = s.repo.GetUserByUsername(req.Username)
 	if err == nil {
 		return "", fiber.NewError(fiber.StatusConflict, "username already exists")
 	}
 
-	_, err = s.repo.GetUserByEmail(req.Email)
+	_, err = s.repo.GetAdminByEmail(req.Email)
 	if err == nil {
-		return "", fiber.NewError(fiber.StatusConflict, "user with this email already exists")
+		return "", fiber.NewError(fiber.StatusConflict, "admin with this email already exists")
 	}
 
 	hashedPassword := hash.HashPassword(req.Password)
@@ -50,13 +50,13 @@ func (s *service) Register(req RegisterUserRequest) (token string, err error) {
 	return token, nil
 }
 
-func (s *service) Login(req LoginUserRequest) (token string, err error) {
+func (s *service) Login(req LoginAdminRequest) (token string, err error) {
 	user, err := s.repo.GetUserByUsername(req.Username)
 	if err != nil {
 		return "", fiber.NewError(fiber.StatusNotFound, "username not found")
 	}
 
-	if user.Role != entity.USER_ROLE {
+	if user.Role != entity.ADMIN_ROLE {
 		return "", fiber.NewError(fiber.StatusBadRequest, "user is not user")
 	}
 
