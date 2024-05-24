@@ -1,6 +1,7 @@
 package config
 
 import (
+	"beli-mang/pkg/aws"
 	"beli-mang/pkg/postgresql"
 	"beli-mang/pkg/str"
 	"log"
@@ -13,6 +14,7 @@ import (
 type Configs struct {
 	EnvConfig map[string]string
 	DB        *sqlx.DB
+	S3Config  aws.S3Config
 }
 
 func LoadConfigs() (conf Configs, err error) {
@@ -34,6 +36,15 @@ func LoadConfigs() (conf Configs, err error) {
 		DBMinuteTimeConnection: str.StringToInt(conf.EnvConfig["DB_MAX_LIFETIME_CONNECTION"]),
 	}
 	conf.DB = sqlConfig.Connect()
+
+	s3Config := aws.S3Config{
+		AccessKeyId:     conf.EnvConfig["AWS_ACCESS_KEY_ID"],
+		SecretAccessKey: conf.EnvConfig["AWS_SECRET_ACCESS_KEY"],
+		BucketName:      conf.EnvConfig["AWS_S3_BUCKET_NAME"],
+		Region:          conf.EnvConfig["AWS_REGION"],
+	}
+	s3Config.Initialize()
+	conf.S3Config = s3Config
 
 	return conf, err
 }

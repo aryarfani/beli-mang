@@ -36,8 +36,9 @@ func main() {
 	app.Use(healthcheck.New())
 
 	handler := handler.HandlerConfig{
-		App: app,
-		DB:  configs.DB,
+		App:      app,
+		DB:       configs.DB,
+		S3Config: &configs.S3Config,
 	}
 	handler.BuildHandlers()
 

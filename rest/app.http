@@ -45,3 +45,15 @@ Content-Type: application/json
     "username": "admin",
     "password" : "secret123"
 }
+
+
+### Upload image
+POST {{baseUrl}}/image
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="cat.jpg"
+Content-Type: image/png
+
+< ./../tmp/cat.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
