@@ -1,4 +1,4 @@
-package merchant
+package item
 
 import (
 	"beli-mang/internal/helper"
@@ -9,8 +9,8 @@ import (
 func RegisterHandlers(app *fiber.App, service Service) {
 	resource := resource{service: service}
 
-	app.Post("/admins/merchants", resource.create)
-	app.Get("/admins/merchants", resource.query)
+	app.Post("/admins/merchants/:merchantId/items", resource.create)
+	app.Get("/admins/merchants/:merchantId/items", resource.query)
 }
 
 type resource struct {
@@ -18,7 +18,7 @@ type resource struct {
 }
 
 func (resource resource) create(c *fiber.Ctx) error {
-	var req CreateMerchantRequest
+	var req CreateItemRequest
 	_ = c.BodyParser(&req)
 	if err := helper.ValidateRequest(req); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
@@ -32,16 +32,16 @@ func (resource resource) create(c *fiber.Ctx) error {
 	}
 
 	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
-		"message": "Merchant created successfully",
+		"message": "Item created successfully",
 		"token":   token,
 	})
 }
 
 func (resource resource) query(c *fiber.Ctx) error {
-	merchants, err := resource.service.Query()
+	items, err := resource.service.Query()
 	if err != nil {
 		return err
 	}
 
-	return c.Status(fiber.StatusOK).JSON(merchants)
+	return c.Status(fiber.StatusOK).JSON(items)
 }

@@ -2,8 +2,13 @@ package main
 
 import (
 	"beli-mang/config"
-	"beli-mang/handler"
-	"beli-mang/helper"
+
+	"beli-mang/internal/admin"
+	"beli-mang/internal/helper"
+	"beli-mang/internal/image"
+	"beli-mang/internal/item"
+	"beli-mang/internal/merchant"
+	"beli-mang/internal/user"
 	"errors"
 	"fmt"
 	"log"
@@ -35,14 +40,17 @@ func main() {
 	app.Use(logger.New())
 	app.Use(healthcheck.New())
 
-	handler := handler.HandlerConfig{
-		App:      app,
-		DB:       configs.DB,
-		S3Config: &configs.S3Config,
-	}
-	handler.BuildHandlers()
+	registerHandlers(app, configs)
 
 	log.Fatal(app.Listen(":8080"))
+}
+
+func registerHandlers(app *fiber.App, configs config.Configs) {
+	user.RegisterHandlers(app, user.NewService(user.NewRepository(configs.DB)))
+	admin.RegisterHandlers(app, admin.NewService(admin.NewRepository(configs.DB)))
+	image.RegisterHandlers(app, image.NewService(&configs.S3Config))
+	merchant.RegisterHandlers(app, merchant.NewService(merchant.NewRepository(configs.DB)))
+	item.RegisterHandlers(app, item.NewService(item.NewRepository(configs.DB)))
 }
 
 func appErrorHandler(ctx *fiber.Ctx, err error) error {

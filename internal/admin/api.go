@@ -1,7 +1,7 @@
 package admin
 
 import (
-	"beli-mang/helper"
+	"beli-mang/internal/helper"
 
 	"github.com/gofiber/fiber/v2"
 )
