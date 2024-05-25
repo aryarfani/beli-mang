@@ -47,7 +47,8 @@ Content-Type: application/json
 }
 
 
-### Upload image
+### upload image
+
 POST {{baseUrl}}/image
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
@@ -57,3 +58,23 @@ Content-Type: image/png
 
 < ./../tmp/cat.jpg
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### create merchant
+
+POST {{baseUrl}}/admins/merchants
+Content-Type: application/json
+
+{
+    "imageUrl": "https://i.ibb.co.com/znxt5bT/74f4f548392fbdafbe8a5d9764c83eaf.jpg",
+    "name": "new merchant",
+    "merchantCategory": "SmallRestaurant",
+    "location": {
+        "lat": -7.8155598666075985,
+        "long": 112.0189881
+    }
+}
+
+### query merchants
+
+GET {{baseUrl}}/admins/merchants
+Content-Type: application/json

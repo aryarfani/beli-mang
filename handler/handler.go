@@ -3,6 +3,7 @@ package handler
 import (
 	"beli-mang/internal/admin"
 	"beli-mang/internal/image"
+	"beli-mang/internal/merchant"
 	"beli-mang/internal/user"
 	"beli-mang/pkg/aws"
 
@@ -20,4 +21,5 @@ func (handler HandlerConfig) BuildHandlers() {
 	user.RegisterHandlers(handler.App, user.NewService(user.NewRepository(handler.DB)))
 	admin.RegisterHandlers(handler.App, admin.NewService(admin.NewRepository(handler.DB)))
 	image.RegisterHandlers(handler.App, image.NewService(handler.S3Config))
+	merchant.RegisterHandlers(handler.App, merchant.NewService(merchant.NewRepository(handler.DB)))
 }

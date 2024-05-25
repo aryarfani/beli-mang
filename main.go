@@ -60,7 +60,7 @@ func appErrorHandler(ctx *fiber.Ctx, err error) error {
 	// Set default error message as json
 	if message != "" {
 		return ctx.Status(code).JSON(fiber.Map{
-			"message": message,
+			"error": message,
 		})
 	}
 
