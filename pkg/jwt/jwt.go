@@ -1,8 +1,8 @@
 package jwt
 
 import (
+	"beli-mang/config"
 	"beli-mang/pkg/str"
-	"os"
 	"strings"
 	"time"
 
@@ -12,8 +12,8 @@ import (
 )
 
 var (
-	secretKey = os.Getenv("JWT_SECRET")
-	expSecret = str.StringToInt(os.Getenv("JWT_EXP_SECRET"))
+	secretKey = config.GetConfig("JWT_SECRET")
+	expSecret = str.StringToInt(config.GetConfig("JWT_EXP_SECRET"))
 )
 
 type JWTCustomClaim struct {

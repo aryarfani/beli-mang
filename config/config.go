@@ -4,7 +4,9 @@ import (
 	"beli-mang/pkg/aws"
 	"beli-mang/pkg/postgresql"
 	"beli-mang/pkg/str"
+	"fmt"
 	"log"
+	"os"
 
 	"github.com/jmoiron/sqlx"
 	"github.com/joho/godotenv"
@@ -47,4 +49,13 @@ func LoadConfigs() (conf Configs, err error) {
 	conf.S3Config = s3Config
 
 	return conf, err
+}
+
+func GetConfig(key string) string {
+	// load .env file
+	err := godotenv.Load(".env")
+	if err != nil {
+		fmt.Print("Error loading .env file")
+	}
+	return os.Getenv(key)
 }

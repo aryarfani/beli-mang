@@ -1,5 +1,6 @@
 
 @baseUrl = http://127.0.0.1:8080
+@adminToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNWIzZjk2OWYtNTk1MC00MjIzLTlmMWUtYzg2YmVhMGUxNzA5IiwiZXhwIjoxNzI1MzYyNjkwfQ.CRDlMyH3faZOHeM_a1zNl8YUaZLc8CECcn39vfxKavc
 
 ### livez
 GET {{baseUrl}}/livez
@@ -63,6 +64,7 @@ Content-Type: image/png
 
 POST {{baseUrl}}/admins/merchants
 Content-Type: application/json
+Authorization: Bearer {{ adminToken }}
 
 {
     "imageUrl": "https://i.ibb.co.com/znxt5bT/74f4f548392fbdafbe8a5d9764c83eaf.jpg",
@@ -78,12 +80,14 @@ Content-Type: application/json
 
 GET {{baseUrl}}/admins/merchants
 Content-Type: application/json
+Authorization: Bearer {{ adminToken }}
 
 ### create merchant items
 
 @merchantId = "591407a8-69b3-416b-91ee-8ff830c54f78"
 POST {{baseUrl}}/admins/merchants/{{merchantId}}/items
 Content-Type: application/json
+Authorization: Bearer {{ adminToken }}
 
 {
     "name": "Usus krispi 1kg",
@@ -97,3 +101,4 @@ Content-Type: application/json
 @merchantId = "591407a8-69b3-416b-91ee-8ff830c54f78"
 GET {{baseUrl}}/admins/merchants/{{merchantId}}/items
 Content-Type: application/json
+Authorization: Bearer {{ adminToken }}

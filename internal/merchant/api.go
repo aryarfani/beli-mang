@@ -2,6 +2,7 @@ package merchant
 
 import (
 	"beli-mang/internal/helper"
+	"beli-mang/internal/middleware"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -9,8 +10,8 @@ import (
 func RegisterHandlers(app *fiber.App, service Service) {
 	resource := resource{service: service}
 
-	app.Post("/admins/merchants", resource.create)
-	app.Get("/admins/merchants", resource.query)
+	app.Post("/admins/merchants", middleware.Auth(), resource.create)
+	app.Get("/admins/merchants", middleware.Auth(), resource.query)
 }
 
 type resource struct {
