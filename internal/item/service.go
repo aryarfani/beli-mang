@@ -36,5 +36,9 @@ func (s *service) Query() (items []entity.Item, err error) {
 		return items, err
 	}
 
+	if len(items) == 0 {
+		return []entity.Item{}, nil
+	}
+
 	return items, nil
 }

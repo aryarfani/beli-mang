@@ -46,3 +46,14 @@ func ToQueryMerchantsResponse(merchant *entity.Merchant) *QueryMerchantsResponse
 		},
 	}
 }
+
+type QueryMerchantsRequest struct {
+	MerchantId string `query:"merchantId"`
+	Limit      int    `query:"limit"`
+	Offset     int    `query:"offset"`
+	Name       string `query:"name"`
+	Category   string `query:"merchantCategory"`
+	CreatedAt  string `query:"createdAt"`
+	Latitude   string
+	Longitude  string
+}

@@ -15,3 +15,5 @@ type Merchant struct {
 	Longitude float64   `json:"long"`
 	CreatedAt time.Time `json:"createdAt" db:"created_at"`
 }
+
+var MerchantCategories = []string{"SmallRestaurant", "MediumRestaurant", "LargeRestaurant", "MerchandiseRestaurant", "BoothKiosk", "ConvenienceStore"}

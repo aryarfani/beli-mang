@@ -6,7 +6,7 @@ import (
 
 type Service interface {
 	Create(req CreateMerchantRequest) (userId uuid.UUID, err error)
-	Query() (merchants []QueryMerchantsResponse, err error)
+	Query(params QueryMerchantsRequest) (merchants []QueryMerchantsResponse, err error)
 }
 
 type service struct {
@@ -29,14 +29,18 @@ func (s *service) Create(req CreateMerchantRequest) (userId uuid.UUID, err error
 	return userId, nil
 }
 
-func (s *service) Query() (queryMerchants []QueryMerchantsResponse, err error) {
-	merchants, err := s.repo.Query()
+func (s *service) Query(params QueryMerchantsRequest) (queryMerchants []QueryMerchantsResponse, err error) {
+	merchants, err := s.repo.Query(params)
 	if err != nil {
 		return queryMerchants, err
 	}
 
 	for _, merchant := range merchants {
 		queryMerchants = append(queryMerchants, *ToQueryMerchantsResponse(&merchant))
+	}
+
+	if len(queryMerchants) == 0 {
+		return []QueryMerchantsResponse{}, nil
 	}
 
 	return queryMerchants, nil

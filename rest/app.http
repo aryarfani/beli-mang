@@ -79,6 +79,11 @@ Authorization: Bearer {{ adminToken }}
 ### query merchants
 
 GET {{baseUrl}}/admins/merchants
+?limit=9
+&offset=0
+# &name=new
+&merchantCategory=SmallRestaurant
+&createdAt=asc
 Content-Type: application/json
 Authorization: Bearer {{ adminToken }}
 
@@ -100,5 +105,17 @@ Authorization: Bearer {{ adminToken }}
 
 @merchantId = "591407a8-69b3-416b-91ee-8ff830c54f78"
 GET {{baseUrl}}/admins/merchants/{{merchantId}}/items
+Content-Type: application/json
+Authorization: Bearer {{ adminToken }}
+
+### query merchants nearby
+
+@merchantId = "591407a8-69b3-416b-91ee-8ff830c54f78"
+GET {{baseUrl}}/merchants/-7.815983339324898,112.02252475285638
+?limit=5
+&offset=0
+# &name=new
+# &merchantCategory=SmallRestaurant
+# &createdAt=asc
 Content-Type: application/json
 Authorization: Bearer {{ adminToken }}
