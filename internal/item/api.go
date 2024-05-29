@@ -3,6 +3,7 @@ package item
 import (
 	"beli-mang/internal/helper"
 	"beli-mang/internal/middleware"
+	"fmt"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -26,6 +27,8 @@ func (resource resource) create(c *fiber.Ctx) error {
 			"error": err,
 		})
 	}
+	req.MerchantId = c.Params("merchantId")
+	fmt.Println(c.Params("merchantId"))
 
 	token, err := resource.service.Create(req)
 	if err != nil {
@@ -39,7 +42,12 @@ func (resource resource) create(c *fiber.Ctx) error {
 }
 
 func (resource resource) query(c *fiber.Ctx) error {
-	items, err := resource.service.Query()
+	var params QueryItemsRequest
+	_ = c.QueryParser(&params)
+
+	params.MerchantId = c.Params("merchantId")
+
+	items, err := resource.service.Query(params)
 	if err != nil {
 		return err
 	}

@@ -1,6 +1,7 @@
 
 @baseUrl = http://127.0.0.1:8080
 @adminToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNWIzZjk2OWYtNTk1MC00MjIzLTlmMWUtYzg2YmVhMGUxNzA5IiwiZXhwIjoxNzI1MzYyNjkwfQ.CRDlMyH3faZOHeM_a1zNl8YUaZLc8CECcn39vfxKavc
+@userToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiOGM5N2ZiZmEtZTliNC00ZGZlLTlkMWItY2I4MDhhNmNkYzQ3IiwiZXhwIjoxNzI1NjQxMDg0fQ.FmmyEFK0rdI-gyzb8yYCVptcbkW1mf2NYCAKhcoVBTk
 
 ### livez
 GET {{baseUrl}}/livez
@@ -11,8 +12,8 @@ POST {{baseUrl}}/users/register
 Content-Type: application/json
 
 {
-    "username": "user3",
-    "email":"user3@gmail.com",
+    "username": "user1",
+    "email":"user1@gmail.com",
     "password" : "secret123"
 }
 
@@ -22,7 +23,7 @@ POST {{baseUrl}}/users/login
 Content-Type: application/json
 
 {
-    "username": "user3",
+    "username": "user1",
     "password" : "secret123"
 }
 
@@ -89,28 +90,27 @@ Authorization: Bearer {{ adminToken }}
 
 ### create merchant items
 
-@merchantId = "591407a8-69b3-416b-91ee-8ff830c54f78"
+# @merchantId = 591407a8-69b3-416b-91ee-8ff830c54f78
+@merchantId = 1593bb3c-a3c5-462a-b6bf-4059ce55e99b
 POST {{baseUrl}}/admins/merchants/{{merchantId}}/items
 Content-Type: application/json
 Authorization: Bearer {{ adminToken }}
 
 {
-    "name": "Usus krispi 1kg",
-    "productCategory": "Snack",
-    "price": 250000,
+    "name": "Somay",
+    "productCategory": "Condiments",
+    "price": 20000,
     "imageUrl": "https://i.ibb.co.com/znxt5bT/74f4f548392fbdafbe8a5d9764c83eaf.jpg",
 }
 
 ### query merchants items
 
-@merchantId = "591407a8-69b3-416b-91ee-8ff830c54f78"
 GET {{baseUrl}}/admins/merchants/{{merchantId}}/items
 Content-Type: application/json
 Authorization: Bearer {{ adminToken }}
 
 ### query merchants nearby
 
-@merchantId = "591407a8-69b3-416b-91ee-8ff830c54f78"
 GET {{baseUrl}}/merchants/-7.815983339324898,112.02252475285638
 ?limit=5
 &offset=0
@@ -119,3 +119,41 @@ GET {{baseUrl}}/merchants/-7.815983339324898,112.02252475285638
 # &createdAt=asc
 Content-Type: application/json
 Authorization: Bearer {{ adminToken }}
+
+### create users estimate
+
+POST {{baseUrl}}/users/estimate
+Content-Type: application/json
+Authorization: Bearer {{ userToken }}
+
+{
+    "userLocation": {
+        "lat": -7.815983339324898,
+        "long": 112.02252475285638
+    },
+    "orders": [
+        {
+            "merchantId": "591407a8-69b3-416b-91ee-8ff830c54f78",
+            "isStartingPoint" : true,
+            "items": [
+                {
+                    "itemId": "3723339f-ccf0-4dcc-a337-286ba422cb68",
+                    "quantity": 2
+                },
+                {
+                    "itemId": "88103a0a-5c5f-4bb5-9421-554dc3ed32ee",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "merchantId": "1593bb3c-a3c5-462a-b6bf-4059ce55e99b",
+            "items": [
+                {
+                    "itemId": "a5f4d807-6093-4972-a3df-5635265145c2",
+                    "quantity": 2
+                }
+            ]
+        }
+    ]
+}

@@ -8,6 +8,7 @@ import (
 	"beli-mang/internal/image"
 	"beli-mang/internal/item"
 	"beli-mang/internal/merchant"
+	"beli-mang/internal/order"
 	"beli-mang/internal/user"
 	"errors"
 	"fmt"
@@ -51,6 +52,7 @@ func registerHandlers(app *fiber.App, configs config.Configs) {
 	image.RegisterHandlers(app, image.NewService(&configs.S3Config))
 	merchant.RegisterHandlers(app, merchant.NewService(merchant.NewRepository(configs.DB)))
 	item.RegisterHandlers(app, item.NewService(item.NewRepository(configs.DB)))
+	order.RegisterHandlers(app, order.NewService(order.NewRepository(configs.DB)))
 }
 
 func appErrorHandler(ctx *fiber.Ctx, err error) error {

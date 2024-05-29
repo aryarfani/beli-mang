@@ -60,6 +60,7 @@ func (r *repository) Query(params QueryMerchantsRequest) (merchants []entity.Mer
 
 	query += fmt.Sprintf(" LIMIT %d OFFSET %d", limit, offset)
 	fmt.Println(query)
+
 	err = r.db.Select(&merchants, query)
 	return merchants, err
 }

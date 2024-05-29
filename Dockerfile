@@ -1,5 +1,5 @@
-################################################### STAGE 1
-FROM golang:1.22-alpine AS builder
+################################################### STAGE 1 -- BUILD
+FROM golang:1.22.3-alpine3.20 AS builder
 
 RUN apk update && apk add --no-cache git
 
@@ -13,8 +13,8 @@ COPY . .
 
 RUN go build -o main ./main.go
 
-################################################### STAGE 2
-FROM alpine:latest
+################################################### STAGE 2 -- RUN
+FROM alpine:3.20
 
 WORKDIR /app
 

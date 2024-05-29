@@ -8,7 +8,7 @@ import (
 
 type Service interface {
 	Create(req CreateItemRequest) (userId uuid.UUID, err error)
-	Query() (items []entity.Item, err error)
+	Query(params QueryItemsRequest) (items []entity.Item, err error)
 }
 
 type service struct {
@@ -30,8 +30,8 @@ func (s *service) Create(req CreateItemRequest) (userId uuid.UUID, err error) {
 	return userId, nil
 }
 
-func (s *service) Query() (items []entity.Item, err error) {
-	items, err = s.repo.Query()
+func (s *service) Query(params QueryItemsRequest) (items []entity.Item, err error) {
+	items, err = s.repo.Query(params)
 	if err != nil {
 		return items, err
 	}
