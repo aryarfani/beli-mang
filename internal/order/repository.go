@@ -9,6 +9,7 @@ import (
 
 type Repository interface {
 	Create(orders []entity.Order) (estimationId uuid.UUID, err error)
+	GetItems(itemIds []uuid.UUID) (items []entity.Item, err error)
 }
 
 type repository struct {
@@ -66,4 +67,14 @@ func (r *repository) Create(orders []entity.Order) (estimationId uuid.UUID, err 
 	}
 
 	return estimationId, nil
+}
+
+func (r *repository) GetItems(itemIds []uuid.UUID) (items []entity.Item, err error) {
+	query, args, err := sqlx.In("SELECT * FROM items WHERE id IN (?)", itemIds)
+	if err != nil {
+		return items, err
+	}
+	query = r.db.Rebind(query)
+	err = r.db.Select(&items, query, args...)
+	return items, err
 }

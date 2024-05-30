@@ -78,7 +78,7 @@ func (req CreateEstimationRequest) ToOrder(userId uuid.UUID) []entity.Order {
 // }
 
 type CreateEstimationResponse struct {
-	TotalPrice                 float64   `json:"totalPrice"`
+	TotalPrice                 int   `json:"totalPrice"`
 	EstimatedDeliveryTimeInMin int       `json:"estimatedDeliveryTimeInMinutes"`
 	CalculatedEstimateId       uuid.UUID `json:"calculatedEstimateId"`
 }
