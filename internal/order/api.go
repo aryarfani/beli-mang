@@ -28,8 +28,8 @@ func (resource resource) create(c *fiber.Ctx) error {
 	}
 
 	userId := c.Locals("user_id").(uuid.UUID)
-	order := req.ToOrder(userId)
-	resp, err := resource.service.Create(order)
+	orders := req.ToOrders(userId)
+	resp, err := resource.service.Create(orders, req)
 	if err != nil {
 		return err
 	}

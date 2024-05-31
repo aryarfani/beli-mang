@@ -6,27 +6,6 @@ import (
 	"github.com/google/uuid"
 )
 
-// {
-//   "userLocation": {
-//     "lat": 1, // not null | float
-//     "long": 1  // not null | float
-//   },
-//   "orders": [
-//     {
-//       "merchantId": "string", // not null
-//       "isStartingPoint" : true
-//        ⬆️ not null | there's should be one isStartingPoint == true in orders array
-//        | if none are true, or true > 1 items, it's not valid
-//       "items": [
-//         {
-//           "itemId": "string", // not null
-//           "quantity": 1 // not null
-//         }
-//       ]
-//     }
-//   ]
-// }
-
 type CreateEstimationRequest struct {
 	UserLocation UserLocation `json:"userLocation"`
 	Orders       []Order      `json:"orders"`
@@ -38,9 +17,9 @@ type UserLocation struct {
 }
 
 type Order struct {
-	MerchantId      string `json:"merchantId"`
-	IsStartingPoint bool   `json:"isStartingPoint"`
-	Items           []Item `json:"items"`
+	MerchantId      uuid.UUID `json:"merchantId"`
+	IsStartingPoint bool      `json:"isStartingPoint"`
+	Items           []Item    `json:"items"`
 }
 
 type Item struct {
@@ -48,7 +27,7 @@ type Item struct {
 	Quantity int    `json:"quantity"`
 }
 
-func (req CreateEstimationRequest) ToOrder(userId uuid.UUID) []entity.Order {
+func (req CreateEstimationRequest) ToOrders(userId uuid.UUID) []entity.Order {
 	orders := []entity.Order{}
 
 	for _, order := range req.Orders {
@@ -71,14 +50,8 @@ func (req CreateEstimationRequest) ToOrder(userId uuid.UUID) []entity.Order {
 	return orders
 }
 
-// {
-// 	"totalPrice": 1,
-// 	"estimatedDeliveryTimeInMinutes": 1,
-// 	"calculatedEstimateId": "" // save the calculation in the system
-// }
-
 type CreateEstimationResponse struct {
-	TotalPrice                 int   `json:"totalPrice"`
+	TotalPrice                 int       `json:"totalPrice"`
 	EstimatedDeliveryTimeInMin int       `json:"estimatedDeliveryTimeInMinutes"`
 	CalculatedEstimateId       uuid.UUID `json:"calculatedEstimateId"`
 }
