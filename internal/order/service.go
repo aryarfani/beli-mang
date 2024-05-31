@@ -10,6 +10,8 @@ import (
 
 type Service interface {
 	Create(orders []entity.Order, req CreateEstimationRequest) (resp CreateEstimationResponse, err error)
+	CreateOrder(req CreateOrderRequest) (resp CreateOrderResponse, err error)
+	Query(params QueryOrdersRequest) (items []QueryOrdersResponse, err error)
 }
 
 type service struct {
@@ -20,6 +22,30 @@ func NewService(repo Repository) Service {
 	return &service{
 		repo: repo,
 	}
+}
+
+func (s *service) Query(params QueryOrdersRequest) (items []QueryOrdersResponse, err error) {
+	items, err = s.repo.Query(params)
+	if err != nil {
+		return items, err
+	}
+
+	if len(items) == 0 {
+		return []QueryOrdersResponse{}, nil
+	}
+
+	return items, nil
+}
+
+func (s *service) CreateOrder(req CreateOrderRequest) (resp CreateOrderResponse, err error) {
+	orderId, err := s.repo.CreateOrder(req)
+	if err != nil {
+		return resp, err
+	}
+
+	resp.OrderId = orderId
+
+	return resp, nil
 }
 
 func (s *service) Create(orders []entity.Order, req CreateEstimationRequest) (resp CreateEstimationResponse, err error) {

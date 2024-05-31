@@ -157,3 +157,24 @@ Authorization: Bearer {{ userToken }}
         }
     ]
 }
+
+### create users orders (from estimate)
+
+POST {{baseUrl}}/users/orders
+Content-Type: application/json
+Authorization: Bearer {{ userToken }}
+
+{
+    "calculatedEstimateId": "3bf7ad42-c0dd-4b1d-9d50-809a63724531"
+}
+
+### query merchants nearby
+
+GET {{baseUrl}}/users/orders
+?limit=5
+&offset=0
+# &name=new
+# &merchantCategory=SmallRestaurant
+# &createdAt=asc
+Content-Type: application/json
+Authorization: Bearer {{ userToken }}
