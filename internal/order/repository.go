@@ -2,7 +2,9 @@ package order
 
 import (
 	"beli-mang/internal/entity"
+	"encoding/json"
 	"fmt"
+	"slices"
 
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
@@ -98,19 +100,57 @@ func (r *repository) CreateOrder(req CreateOrderRequest) (orderId uuid.UUID, err
 	return orderId, err
 }
 
+type QueryResult struct {
+	OrderId uuid.UUID `db:"order_id"`
+	Orders  string    `db:"orders"`
+}
+
 func (r *repository) Query(params QueryOrdersRequest) (resp []QueryOrdersResponse, err error) {
-	query := "SELECT * FROM orders "
-	query += fmt.Sprintf("WHERE user_id = '%s'", params.UserId)
+	query := `
+		SELECT
+			e.id order_id,
+			jsonb_agg(
+				jsonb_build_object(
+					'merchant', (m.*),
+					'items', (
+								SELECT
+										jsonb_agg(
+											json_build_object(
+												'item_id', i.id,
+												'name', i.name,
+												'category', i.category,
+												'price', i.price,
+												'quantity', oi.quantity,
+												'image_url', i.image_url,
+												'created_at', i.created_at
+											)
+										)
+								FROM
+									order_items oi
+									JOIN items i ON oi.item_id = i.id
+									AND oi.order_id = o.id
+								)
+							)
+			) orders
+		FROM
+			estimations e
+			LEFT JOIN orders o ON e.id = o.estimation_id
+			LEFT JOIN merchants m ON o.merchant_id = m.id
+			LEFT JOIN order_items oi ON oi.order_id = o.id
+			LEFT JOIN items i ON oi.item_id = i.id
+		WHERE 1=1
+	`
+	query += fmt.Sprintf("AND o.user_id = '%s'", params.UserId)
 
 	if params.MerchantId != "" {
-		query += fmt.Sprintf(" AND merchant_id = '%s'", params.MerchantId)
+		query += fmt.Sprintf(" AND o.merchant_id = '%s'", params.MerchantId)
 	}
-	// if params.Name != "" {
-	// 	query += fmt.Sprintf(" AND name ILIKE '%%%s%%'", params.Name)
-	// }
-	// if slices.Contains(entity.MerchantCategories, params.Category) {
-	// 	query += fmt.Sprintf(" AND category = '%s'", params.Category)
-	// }
+	if params.Name != "" {
+		query += fmt.Sprintf(` AND (m.name ILIKE '%%%s%%' OR i.name ILIKE '%%%s%%')`, params.Name, params.Name)
+	}
+	if slices.Contains(entity.MerchantCategories, params.MerchantCategory) {
+		query += fmt.Sprintf(" AND m.category = '%s'", params.MerchantCategory)
+	}
 
 	limit := 5
 	if params.Limit != 0 {
@@ -121,9 +161,23 @@ func (r *repository) Query(params QueryOrdersRequest) (resp []QueryOrdersRespons
 		offset = params.Offset
 	}
 
-	query += fmt.Sprintf(" LIMIT %d OFFSET %d", limit, offset)
+	query += fmt.Sprintf(" GROUP BY e.id LIMIT %d OFFSET %d", limit, offset)
 	fmt.Println(query)
 
-	err = r.db.Select(&resp, query)
+	var queryResults []QueryResult
+	err = r.db.Select(&queryResults, query)
+
+	for _, queryResult := range queryResults {
+		var order []OrderResp
+		err := json.Unmarshal([]byte(queryResult.Orders), &order)
+		if err != nil {
+			return resp, err
+		}
+
+		resp = append(resp, QueryOrdersResponse{
+			OrderId: queryResult.OrderId,
+			Orders:  order,
+		})
+	}
 	return resp, err
 }

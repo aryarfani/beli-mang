@@ -1,4 +1,4 @@
-name: Deploy to Amazon ERC and ECS
+name: Deploy to Amazon ECR and ECS
 
 on:
   push:
@@ -9,7 +9,6 @@ env:
   ECR_REPOSITORY: iwasbornalone-repository
   ECS_SERVICE: projectsprint-iwasbornalone-service
   ECS_CLUSTER: projectsprint-cluster
-  CONTAINER_NAME: iwasbornalone-container
 
 permissions:
   contents: read

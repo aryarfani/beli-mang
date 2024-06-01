@@ -88,12 +88,12 @@ type CreateOrderResponse struct {
 //         - if not exits / enum is invalid, keep return `200` with empty array
 
 type QueryOrdersRequest struct {
-	MerchantId string
-	Limit      int
-	Offset     int
-	Name       string
-	Category   string
-	UserId     uuid.UUID
+	MerchantId       string
+	Limit            int
+	Offset           int
+	Name             string
+	MerchantCategory string
+	UserId           uuid.UUID
 }
 
 // [
@@ -114,13 +114,13 @@ type QueryOrdersRequest struct {
 // 				},
 // 		    "items": [
 // 					{
-// 						"itemId":"",
+// 					"itemId":"",
 // 				    "name": "string",
 // 				    "productCategory": ""
 // 				    "price": 1,
-// 	          "quantity": 1,
-// 						"imageUrl": "",
-// 					  "createdAt": ""  // should in ISO 8601 format with nanoseconds
+// 	                "quantity": 1,
+// 					"imageUrl": "",
+// 					"createdAt": ""  // should in ISO 8601 format with nanoseconds
 // 				  }
 // 				]
 // 		  }
@@ -129,8 +129,31 @@ type QueryOrdersRequest struct {
 // ]
 
 type QueryOrdersResponse struct {
-	ID         uuid.UUID `json:"id" db:"id"`
-	UserId     uuid.UUID `json:"userId" db:"user_id"`
-	MerchantId uuid.UUID `json:"merchantId" db:"merchant_id"`
-	CreatedAt  time.Time `json:"createdAt" db:"created_at"`
+	OrderId uuid.UUID   `json:"order_id" db:"order_id"`
+	Orders  []OrderResp `json:"orders" db:"orders"`
+}
+
+type OrderResp struct {
+	MerchantResps MerchantResp `json:"merchant"`
+	ItemResps     []ItemResp   `json:"items"`
+}
+
+type ItemResp struct {
+	Name      string    `json:"name"`
+	Price     int       `json:"price"`
+	ItemID    string    `json:"item_id"`
+	Category  string    `json:"category"`
+	Quantity  int       `json:"quantity"`
+	ImageURL  string    `json:"image_url"`
+	CreatedAt time.Time `json:"created_at"`
+}
+
+type MerchantResp struct {
+	ID        string    `json:"id"`
+	Name      string    `json:"name"`
+	Category  string    `json:"category"`
+	Latitude  float64   `json:"latitude"`
+	ImageURL  string    `json:"image_url"`
+	Longitude float64   `json:"longitude"`
+	CreatedAt time.Time `json:"created_at"`
 }

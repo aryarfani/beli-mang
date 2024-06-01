@@ -171,10 +171,9 @@ Authorization: Bearer {{ userToken }}
 ### query merchants nearby
 
 GET {{baseUrl}}/users/orders
-?limit=5
-&offset=0
-# &name=new
-# &merchantCategory=SmallRestaurant
-# &createdAt=asc
+# ?limit=10
+# &offset=0
+# &name=kentang
+# &merchantCategory=MediumRestaurant
 Content-Type: application/json
 Authorization: Bearer {{ userToken }}
