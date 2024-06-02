@@ -11,9 +11,9 @@ import (
 func RegisterHandlers(app *fiber.App, service Service) {
 	resource := resource{service: service}
 
-	app.Get("/merchants/:location", middleware.Auth(), resource.getNearby)
-	app.Post("/admins/merchants", middleware.Auth(), resource.create)
-	app.Get("/admins/merchants", middleware.Auth(), resource.query)
+	app.Get("/merchant/:location", middleware.Auth(), resource.getNearby)
+	app.Post("/admin/merchants", middleware.Auth(), resource.create)
+	app.Get("/admin/merchants", middleware.Auth(), resource.query)
 }
 
 type resource struct {
@@ -29,14 +29,14 @@ func (resource resource) create(c *fiber.Ctx) error {
 		})
 	}
 
-	token, err := resource.service.Create(req)
+	merchantId, err := resource.service.Create(req)
 	if err != nil {
 		return err
 	}
 
 	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
-		"message": "Merchant created successfully",
-		"token":   token,
+		"message":    "Merchant created successfully",
+		"merchantId": merchantId,
 	})
 }
 

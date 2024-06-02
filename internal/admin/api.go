@@ -9,8 +9,8 @@ import (
 func RegisterHandlers(app *fiber.App, service Service) {
 	resource := resource{service: service}
 
-	app.Post("/admins/register", resource.register)
-	app.Post("/admins/login", resource.login)
+	app.Post("/admin/register", resource.register)
+	app.Post("/admin/login", resource.login)
 }
 
 type resource struct {
@@ -49,7 +49,7 @@ func (resource resource) login(c *fiber.Ctx) error {
 		return err
 	}
 
-	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"message": "User login successfully",
 		"token":   token,
 	})

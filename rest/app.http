@@ -1,8 +1,8 @@
 
 # @baseUrl = http://54.169.172.228:8080
 @baseUrl = http://127.0.0.1:8080
-@adminToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNWIzZjk2OWYtNTk1MC00MjIzLTlmMWUtYzg2YmVhMGUxNzA5IiwiZXhwIjoxNzI1MzYyNjkwfQ.CRDlMyH3faZOHeM_a1zNl8YUaZLc8CECcn39vfxKavc
-@userToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiOGM5N2ZiZmEtZTliNC00ZGZlLTlkMWItY2I4MDhhNmNkYzQ3IiwiZXhwIjoxNzI1NjQxMDg0fQ.FmmyEFK0rdI-gyzb8yYCVptcbkW1mf2NYCAKhcoVBTk
+@adminToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNWIzZjk2OWYtNTk1MC00MjIzLTlmMWUtYzg2YmVhMGUxNzA5IiwiZXhwIjoxNzI1OTc4MzczfQ.8zRb_hH4I7rcBScbdrp7up9xIDpt6NlqJm90H-JRrQg
+@userToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiOGM5N2ZiZmEtZTliNC00ZGZlLTlkMWItY2I4MDhhNmNkYzQ3IiwiZXhwIjoxNzI1OTc0NDU1fQ.af32n8U5kQOlo4YI5xgX-0QPfmeCl95KPGcWGssYrfM
 
 ### livez
 GET {{baseUrl}}/livez
@@ -30,7 +30,7 @@ Content-Type: application/json
 
 ### register admins
 
-POST {{baseUrl}}/admins/register
+POST {{baseUrl}}/admin/register
 Content-Type: application/json
 
 {
@@ -41,7 +41,7 @@ Content-Type: application/json
 
 ### login admin
 
-POST {{baseUrl}}/admins/login
+POST {{baseUrl}}/admin/login
 Content-Type: application/json
 
 {
@@ -64,7 +64,7 @@ Content-Type: image/png
 
 ### create merchant
 
-POST {{baseUrl}}/admins/merchants
+POST {{baseUrl}}/admin/merchants
 Content-Type: application/json
 Authorization: Bearer {{ adminToken }}
 
@@ -80,12 +80,12 @@ Authorization: Bearer {{ adminToken }}
 
 ### query merchants
 
-GET {{baseUrl}}/admins/merchants
-?limit=9
-&offset=0
+GET {{baseUrl}}/admin/merchants
+?limit=2
+&offset=2
 # &name=new
-&merchantCategory=SmallRestaurant
-&createdAt=asc
+# &merchantCategory=SmallRestaurant
+&createdAt=DESC
 Content-Type: application/json
 Authorization: Bearer {{ adminToken }}
 
@@ -93,7 +93,7 @@ Authorization: Bearer {{ adminToken }}
 
 # @merchantId = 591407a8-69b3-416b-91ee-8ff830c54f78
 @merchantId = 1593bb3c-a3c5-462a-b6bf-4059ce55e99b
-POST {{baseUrl}}/admins/merchants/{{merchantId}}/items
+POST {{baseUrl}}/admin/merchants/{{merchantId}}/items
 Content-Type: application/json
 Authorization: Bearer {{ adminToken }}
 
@@ -106,7 +106,7 @@ Authorization: Bearer {{ adminToken }}
 
 ### query merchants items
 
-GET {{baseUrl}}/admins/merchants/{{merchantId}}/items
+GET {{baseUrl}}/admin/merchants/{{merchantId}}/items
 Content-Type: application/json
 Authorization: Bearer {{ adminToken }}
 
@@ -149,6 +149,7 @@ Authorization: Bearer {{ userToken }}
         },
         {
             "merchantId": "1593bb3c-a3c5-462a-b6bf-4059ce55e99b",
+            "isStartingPoint" : false,
             "items": [
                 {
                     "itemId": "a5f4d807-6093-4972-a3df-5635265145c2",

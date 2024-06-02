@@ -1,12 +1,14 @@
 package merchant
 
 import (
+	"beli-mang/internal/entity"
+
 	"github.com/google/uuid"
 )
 
 type Service interface {
 	Create(req CreateMerchantRequest) (userId uuid.UUID, err error)
-	Query(params QueryMerchantsRequest) (merchants []QueryMerchantsResponse, err error)
+	Query(params QueryMerchantsRequest) (resp PaginatedQueryMerchantsResponse, err error)
 }
 
 type service struct {
@@ -29,19 +31,24 @@ func (s *service) Create(req CreateMerchantRequest) (userId uuid.UUID, err error
 	return userId, nil
 }
 
-func (s *service) Query(params QueryMerchantsRequest) (queryMerchants []QueryMerchantsResponse, err error) {
+func (s *service) Query(params QueryMerchantsRequest) (resp PaginatedQueryMerchantsResponse, err error) {
 	merchants, err := s.repo.Query(params)
 	if err != nil {
-		return queryMerchants, err
+		return resp, err
 	}
 
+	merchantsResp := []QueryMerchantsResponse{}
 	for _, merchant := range merchants {
-		queryMerchants = append(queryMerchants, *ToQueryMerchantsResponse(&merchant))
+		merchantsResp = append(merchantsResp, *ToQueryMerchantsResponse(&merchant))
 	}
 
-	if len(queryMerchants) == 0 {
-		return []QueryMerchantsResponse{}, nil
+	total, err := s.repo.Count(params)
+	if err != nil {
+		return resp, err
 	}
 
-	return queryMerchants, nil
+	resp.Data = merchantsResp
+	resp.Meta = *entity.NewPaginationMeta(params.Limit, params.Offset, total)
+
+	return resp, nil
 }

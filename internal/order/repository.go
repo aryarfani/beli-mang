@@ -4,6 +4,7 @@ import (
 	"beli-mang/internal/entity"
 	"encoding/json"
 	"fmt"
+	"log"
 	"slices"
 
 	"github.com/google/uuid"
@@ -55,6 +56,7 @@ func (r *repository) Create(orders []entity.Order, estimation entity.Estimation)
 	// insert orders
 	for _, order := range orders {
 		var orderId string
+		log.Println(order.UserId)
 		query := "INSERT INTO orders (user_id, merchant_id, estimation_id) VALUES ($1, $2, $3) RETURNING id"
 		err := tx.QueryRowx(query, order.UserId, order.MerchantId, estimationId).Scan(&orderId)
 		if err != nil {

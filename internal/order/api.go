@@ -29,6 +29,20 @@ func (resource resource) createEstimate(c *fiber.Ctx) error {
 		})
 	}
 
+	// validate req has only one merchant's starting point
+	var startingPointCount int
+	for _, merchant := range req.Orders {
+		if merchant.IsStartingPoint {
+			startingPointCount++
+		}
+	}
+
+	if startingPointCount != 1 {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Order must have only one starting point",
+		})
+	}
+
 	userId := c.Locals("user_id").(uuid.UUID)
 	orders := req.ToOrders(userId)
 	resp, err := resource.service.Create(orders, req)

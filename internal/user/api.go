@@ -9,8 +9,8 @@ import (
 func RegisterHandlers(app *fiber.App, service Service) {
 	resource := resource{service: service}
 
-	app.Post("/users/register", resource.register)
-	app.Post("/users/login", resource.login)
+	app.Post("/user/register", resource.register)
+	app.Post("/user/login", resource.login)
 }
 
 type resource struct {

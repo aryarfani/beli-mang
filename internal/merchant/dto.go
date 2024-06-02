@@ -24,6 +24,10 @@ func (req *CreateMerchantRequest) ToMerchant() *entity.Merchant {
 	}
 }
 
+type PaginatedQueryMerchantsResponse struct {
+	Data []QueryMerchantsResponse `json:"data"`
+	Meta entity.PaginationMeta    `json:"meta"`
+}
 type QueryMerchantsResponse struct {
 	MerchantId       string   `json:"merchantId"`
 	Name             string   `json:"name"`
@@ -57,3 +61,24 @@ type QueryMerchantsRequest struct {
 	Latitude   string
 	Longitude  string
 }
+
+// {
+// 	"data": [
+// 		{
+// 			"merchantId": ""
+// 			"name":"",
+// 			"merchantCategory": "",
+// 			"imageUrl": "",
+// 		  "location": {
+// 		    "lat": 1,
+// 		    "long": 1
+// 		  },
+// 		  "createdAt": "" // should in ISO 8601 format with nanoseconds
+// 		}
+// 	]
+// 	"meta": {
+// 		"limit": 1,
+// 		"offset": 0,
+// 		"total": 10
+// 	}
+// }

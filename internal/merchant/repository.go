@@ -12,6 +12,7 @@ import (
 type Repository interface {
 	Create(merchant *entity.Merchant) (merchantId uuid.UUID, err error)
 	Query(params QueryMerchantsRequest) (merchants []entity.Merchant, err error)
+	Count(params QueryMerchantsRequest) (count int, err error)
 }
 
 type repository struct {
@@ -45,8 +46,10 @@ func (r *repository) Query(params QueryMerchantsRequest) (merchants []entity.Mer
 	if params.Latitude != "" && params.Longitude != "" {
 		query += fmt.Sprintf(" ORDER BY ll_to_earth(latitude, longitude) <-> ll_to_earth(%s, %s)", params.Latitude, params.Longitude)
 	}
-	if params.CreatedAt == "asc" || params.CreatedAt == "desc" {
+	if params.CreatedAt == "asc" {
 		query += " ORDER BY created_at " + params.CreatedAt
+	} else {
+		query += " ORDER BY created_at DESC"
 	}
 
 	limit := 5
@@ -63,4 +66,20 @@ func (r *repository) Query(params QueryMerchantsRequest) (merchants []entity.Mer
 
 	err = r.db.Select(&merchants, query)
 	return merchants, err
+}
+
+func (r *repository) Count(params QueryMerchantsRequest) (count int, err error) {
+	query := "SELECT COUNT(*) FROM merchants WHERE 1=1"
+	if params.MerchantId != "" {
+		query += fmt.Sprintf(" AND id = '%s'", params.MerchantId)
+	}
+	if params.Name != "" {
+		query += fmt.Sprintf(" AND name ILIKE '%%%s%%'", params.Name)
+	}
+	if slices.Contains(entity.MerchantCategories, params.Category) {
+		query += fmt.Sprintf(" AND category = '%s'", params.Category)
+	}
+
+	err = r.db.Get(&count, query)
+	return count, err
 }

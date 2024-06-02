@@ -11,8 +11,8 @@ import (
 func RegisterHandlers(app *fiber.App, service Service) {
 	resource := resource{service: service}
 
-	app.Post("/admins/merchants/:merchantId/items", middleware.Auth(), resource.create)
-	app.Get("/admins/merchants/:merchantId/items", middleware.Auth(), resource.query)
+	app.Post("/admin/merchants/:merchantId/items", middleware.Auth(), resource.create)
+	app.Get("/admin/merchants/:merchantId/items", middleware.Auth(), resource.query)
 }
 
 type resource struct {
