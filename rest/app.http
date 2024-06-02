@@ -1,4 +1,5 @@
 
+# @baseUrl = http://54.169.172.228:8080
 @baseUrl = http://127.0.0.1:8080
 @adminToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNWIzZjk2OWYtNTk1MC00MjIzLTlmMWUtYzg2YmVhMGUxNzA5IiwiZXhwIjoxNzI1MzYyNjkwfQ.CRDlMyH3faZOHeM_a1zNl8YUaZLc8CECcn39vfxKavc
 @userToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiOGM5N2ZiZmEtZTliNC00ZGZlLTlkMWItY2I4MDhhNmNkYzQ3IiwiZXhwIjoxNzI1NjQxMDg0fQ.FmmyEFK0rdI-gyzb8yYCVptcbkW1mf2NYCAKhcoVBTk

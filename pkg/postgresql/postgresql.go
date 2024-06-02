@@ -3,6 +3,7 @@ package postgresql
 import (
 	"context"
 	"fmt"
+	"log"
 	"log/slog"
 	"time"
 
@@ -37,8 +38,8 @@ func (conf DBConfig) Connect() *sqlx.DB {
 
 	// Connect to PostgreSQL database with tracing
 	dsn := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?%s",
-		conf.User, conf.Password, conf.Host,
-		conf.Port, conf.DBName, conf.DBParams)
+		conf.User, conf.Password, conf.Host, conf.Port, conf.DBName, conf.DBParams)
+	log.Println("Connecting to PostgreSQL: ", dsn)
 
 	db, err := sqlx.ConnectContext(context.Background(), "postgres", dsn)
 	if err != nil {
@@ -48,6 +49,18 @@ func (conf DBConfig) Connect() *sqlx.DB {
 	}
 
 	// Set database connection pool settings
+	if conf.DBMaxConnection == 0 {
+		conf.DBMaxConnection = 20
+	}
+
+	if conf.DBMaxIdleConnection == 0 {
+		conf.DBMaxIdleConnection = 20
+	}
+
+	if conf.DBMinuteTimeConnection == 0 {
+		conf.DBMinuteTimeConnection = 3
+	}
+
 	db.SetMaxOpenConns(conf.DBMaxConnection)
 	db.SetMaxIdleConns(conf.DBMaxIdleConnection)
 	db.SetConnMaxLifetime(time.Duration(conf.DBMinuteTimeConnection) * time.Minute)
