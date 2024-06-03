@@ -1,5 +1,9 @@
 package item
 
+import (
+	"beli-mang/internal/entity"
+)
+
 type CreateItemRequest struct {
 	Name            string `json:"name" validate:"required,min=2,max=30"`
 	ProductCategory string `json:"productCategory" validate:"required,oneof=Beverage Food Snack Condiments Additions"`
@@ -16,4 +20,9 @@ type QueryItemsRequest struct {
 	Category   string
 	CreatedAt  string
 	MerchantId string
+}
+
+type PaginatedQueryItemsResponse struct {
+	Data []entity.Item         `json:"data"`
+	Meta entity.PaginationMeta `json:"meta"`
 }

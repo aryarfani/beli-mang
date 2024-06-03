@@ -31,7 +31,7 @@ func (resource resource) register(c *fiber.Ctx) error {
 	}
 
 	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
-		"message": "User registered successfully",
+		"message": "Admin registered successfully",
 		"token":   token,
 	})
 }
@@ -50,7 +50,7 @@ func (resource resource) login(c *fiber.Ctx) error {
 	}
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
-		"message": "User login successfully",
+		"message": "Admin login successfully",
 		"token":   token,
 	})
 }

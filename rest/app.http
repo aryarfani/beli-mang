@@ -1,7 +1,7 @@
 
 # @baseUrl = http://54.169.172.228:8080
 @baseUrl = http://127.0.0.1:8080
-@adminToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNWIzZjk2OWYtNTk1MC00MjIzLTlmMWUtYzg2YmVhMGUxNzA5IiwiZXhwIjoxNzI1OTc4MzczfQ.8zRb_hH4I7rcBScbdrp7up9xIDpt6NlqJm90H-JRrQg
+@adminToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMjQ4NDM2YWEtNzkwOS00NGZjLThkNmItMWZkZTZlYjFkZjZmIiwiZXhwIjoxNzI2MDcyMDU1fQ.f6qqIWDBqHvYbvD5qzTNwMMLyGt9xInTik2e7m_HECA
 @userToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiOGM5N2ZiZmEtZTliNC00ZGZlLTlkMWItY2I4MDhhNmNkYzQ3IiwiZXhwIjoxNzI1OTc0NDU1fQ.af32n8U5kQOlo4YI5xgX-0QPfmeCl95KPGcWGssYrfM
 
 ### livez
@@ -91,8 +91,7 @@ Authorization: Bearer {{ adminToken }}
 
 ### create merchant items
 
-# @merchantId = 591407a8-69b3-416b-91ee-8ff830c54f78
-@merchantId = 1593bb3c-a3c5-462a-b6bf-4059ce55e99b
+@merchantId = fa28cd87-c8d9-4441-9d83-f27a53ea4b8f
 POST {{baseUrl}}/admin/merchants/{{merchantId}}/items
 Content-Type: application/json
 Authorization: Bearer {{ adminToken }}

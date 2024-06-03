@@ -8,7 +8,7 @@ import (
 
 type Service interface {
 	Create(req CreateItemRequest) (userId uuid.UUID, err error)
-	Query(params QueryItemsRequest) (items []entity.Item, err error)
+	Query(params QueryItemsRequest) (resp PaginatedQueryItemsResponse, err error)
 }
 
 type service struct {
@@ -30,15 +30,19 @@ func (s *service) Create(req CreateItemRequest) (userId uuid.UUID, err error) {
 	return userId, nil
 }
 
-func (s *service) Query(params QueryItemsRequest) (items []entity.Item, err error) {
-	items, err = s.repo.Query(params)
+func (s *service) Query(params QueryItemsRequest) (resp PaginatedQueryItemsResponse, err error) {
+	items, err := s.repo.Query(params)
 	if err != nil {
-		return items, err
+		return resp, err
 	}
 
-	if len(items) == 0 {
-		return []entity.Item{}, nil
+	total, err := s.repo.Count(params)
+	if err != nil {
+		return resp, err
 	}
 
-	return items, nil
+	resp.Data = items
+	resp.Meta = *entity.NewPaginationMeta(params.Limit, params.Offset, total)
+
+	return resp, nil
 }
