@@ -1,6 +1,9 @@
 package merchant
 
-import "beli-mang/internal/entity"
+import (
+	"beli-mang/internal/entity"
+	"time"
+)
 
 type CreateMerchantRequest struct {
 	Name             string   `json:"name" validate:"required,min=2,max=30"`
@@ -25,26 +28,36 @@ func (req *CreateMerchantRequest) ToMerchant() *entity.Merchant {
 }
 
 type PaginatedQueryMerchantsResponse struct {
-	Data []QueryMerchantsResponse `json:"data"`
-	Meta entity.PaginationMeta    `json:"meta"`
+	Data []QueryMerchantResponse `json:"data"`
+	Meta entity.PaginationMeta   `json:"meta"`
 }
 
-type QueryMerchantsResponse struct {
-	MerchantId       string   `json:"merchantId"`
-	Name             string   `json:"name"`
-	MerchantCategory string   `json:"merchantCategory"`
-	ImageUrl         string   `json:"imageUrl"`
-	Location         Location `json:"location"`
-	CreatedAt        string   `json:"createdAt"`
+type PaginatedQueryMerchantsNearbyResponse struct {
+	Data []QueryMerchantsNearbyResponse `json:"data"`
+	Meta entity.PaginationMeta          `json:"meta"`
 }
 
-func ToQueryMerchantsResponse(merchant *entity.Merchant) *QueryMerchantsResponse {
-	return &QueryMerchantsResponse{
+type QueryMerchantsNearbyResponse struct {
+	Merchant QueryMerchantResponse `json:"merchant"`
+	Items    *[]entity.Item         `json:"item"`
+}
+
+type QueryMerchantResponse struct {
+	MerchantId       string    `json:"merchantId"`
+	Name             string    `json:"name"`
+	MerchantCategory string    `json:"merchantCategory"`
+	ImageUrl         string    `json:"imageUrl"`
+	Location         Location  `json:"location"`
+	CreatedAt        time.Time `json:"createdAt"`
+}
+
+func ToQueryMerchantResponse(merchant *entity.Merchant) *QueryMerchantResponse {
+	return &QueryMerchantResponse{
 		MerchantId:       merchant.ID.String(),
 		Name:             merchant.Name,
 		MerchantCategory: merchant.Category,
 		ImageUrl:         merchant.ImageUrl,
-		CreatedAt:        merchant.CreatedAt.Format("2006-01-02 15:04:05"),
+		CreatedAt:        merchant.CreatedAt,
 		Location: Location{
 			Lat:  merchant.Latitude,
 			Long: merchant.Longitude,

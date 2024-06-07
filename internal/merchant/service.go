@@ -9,6 +9,7 @@ import (
 type Service interface {
 	Create(req CreateMerchantRequest) (userId uuid.UUID, err error)
 	Query(params QueryMerchantsRequest) (resp PaginatedQueryMerchantsResponse, err error)
+	QueryNearby(params QueryMerchantsRequest) (resp PaginatedQueryMerchantsNearbyResponse, err error)
 }
 
 type service struct {
@@ -37,9 +38,9 @@ func (s *service) Query(params QueryMerchantsRequest) (resp PaginatedQueryMercha
 		return resp, err
 	}
 
-	merchantsResp := []QueryMerchantsResponse{}
+	merchantsResp := []QueryMerchantResponse{}
 	for _, merchant := range merchants {
-		merchantsResp = append(merchantsResp, *ToQueryMerchantsResponse(&merchant))
+		merchantsResp = append(merchantsResp, *ToQueryMerchantResponse(&merchant))
 	}
 
 	total, err := s.repo.Count(params)
@@ -48,6 +49,23 @@ func (s *service) Query(params QueryMerchantsRequest) (resp PaginatedQueryMercha
 	}
 
 	resp.Data = merchantsResp
+	resp.Meta = *entity.NewPaginationMeta(params.Limit, params.Offset, total)
+
+	return resp, nil
+}
+
+func (s *service) QueryNearby(params QueryMerchantsRequest) (resp PaginatedQueryMerchantsNearbyResponse, err error) {
+	merchants, err := s.repo.QueryNearby(params)
+	if err != nil {
+		return resp, err
+	}
+
+	total, err := s.repo.Count(params)
+	if err != nil {
+		return resp, err
+	}
+
+	resp.Data = merchants
 	resp.Meta = *entity.NewPaginationMeta(params.Limit, params.Offset, total)
 
 	return resp, nil

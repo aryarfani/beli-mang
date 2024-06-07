@@ -8,12 +8,12 @@ import (
 
 type Item struct {
 	ID         uuid.UUID `json:"itemId"`
-	MerchantId string    `json:"merchantId" db:"merchant_id"`
+	MerchantId string    `json:"merchant_id" db:"merchant_id"`
 	Name       string    `json:"name"`
-	Category   string    `json:"productCategory" db:"category"`
+	Category   string    `json:"category" db:"category"`
 	Price      int       `json:"price"`
-	ImageUrl   string    `json:"imageUrl" db:"image_url"`
-	CreatedAt  time.Time `json:"createdAt" db:"created_at"`
+	ImageUrl   string    `json:"image_url" db:"image_url"`
+	CreatedAt  time.Time `json:"created_at" db:"created_at"`
 }
 
 var ItemCategories = []string{"Beverage", "Food", "Snack", "Condiments", "Additions"}

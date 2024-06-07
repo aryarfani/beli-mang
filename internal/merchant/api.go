@@ -11,7 +11,7 @@ import (
 func RegisterHandlers(app *fiber.App, service Service) {
 	resource := resource{service: service}
 
-	app.Get("/merchant/:location", middleware.Auth(), resource.getNearby)
+	app.Get("/merchants/nearby/*", middleware.Auth(), resource.queryNearby)
 	app.Post("/admin/merchants", middleware.Auth(), resource.create)
 	app.Get("/admin/merchants", middleware.Auth(), resource.query)
 }
@@ -52,22 +52,26 @@ func (resource resource) query(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(merchants)
 }
 
-func (resource resource) getNearby(c *fiber.Ctx) error {
+func (resource resource) queryNearby(c *fiber.Ctx) error {
 	var params QueryMerchantsRequest
 	_ = c.QueryParser(&params)
 
-	location := c.Params("location")
+	location := c.Params("*")
 	locationSplit := strings.Split(location, ",")
+
+	if len(locationSplit) != 2 {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Invalid location format",
+		})
+	}
 
 	params.Latitude = locationSplit[0]
 	params.Longitude = locationSplit[1]
 
-	merchants, err := resource.service.Query(params)
+	merchants, err := resource.service.QueryNearby(params)
 	if err != nil {
 		return err
 	}
 
-	return c.Status(fiber.StatusOK).JSON(fiber.Map{
-		"data": merchants,
-	})
+	return c.Status(fiber.StatusOK).JSON(merchants)
 }

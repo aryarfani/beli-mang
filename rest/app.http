@@ -81,8 +81,8 @@ Authorization: Bearer {{ adminToken }}
 ### query merchants
 
 GET {{baseUrl}}/admin/merchants
-?limit=2
-&offset=2
+?limit=5
+&offset=0
 # &name=new
 # &merchantCategory=SmallRestaurant
 &createdAt=DESC
@@ -91,14 +91,14 @@ Authorization: Bearer {{ adminToken }}
 
 ### create merchant items
 
-@merchantId = fa28cd87-c8d9-4441-9d83-f27a53ea4b8f
+@merchantId = fc63bac9-3938-4931-8570-620525fd1b63
 POST {{baseUrl}}/admin/merchants/{{merchantId}}/items
 Content-Type: application/json
 Authorization: Bearer {{ adminToken }}
 
 {
-    "name": "Somay",
-    "productCategory": "Condiments",
+    "name": "Es buah",
+    "productCategory": "Food",
     "price": 20000,
     "imageUrl": "https://i.ibb.co.com/znxt5bT/74f4f548392fbdafbe8a5d9764c83eaf.jpg",
 }
@@ -111,12 +111,13 @@ Authorization: Bearer {{ adminToken }}
 
 ### query merchants nearby
 
-GET {{baseUrl}}/merchants/-7.815983339324898,112.02252475285638
-?limit=5
-&offset=0
-# &name=new
-# &merchantCategory=SmallRestaurant
-# &createdAt=asc
+# GET {{baseUrl}}/merchants/nearby/a/b
+GET {{baseUrl}}/merchants/nearby/0.5499761,0.69128513
+# ?limit=5
+# &offset=0
+?name=a
+# &merchantCategory=MediumRestaurant
+# &createdAt=desc
 Content-Type: application/json
 Authorization: Bearer {{ adminToken }}
 
@@ -169,7 +170,7 @@ Authorization: Bearer {{ userToken }}
     "calculatedEstimateId": "3bf7ad42-c0dd-4b1d-9d50-809a63724531"
 }
 
-### query merchants nearby
+### query orders
 
 GET {{baseUrl}}/users/orders
 # ?limit=10

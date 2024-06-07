@@ -11,7 +11,7 @@ import (
 
 type Repository interface {
 	Create(item *CreateItemRequest) (itemId uuid.UUID, err error)
-	Query(params QueryItemsRequest) (items []entity.Item, err error)
+	Query(params QueryItemsRequest) (items []Item, err error)
 	Count(params QueryItemsRequest) (count int, err error)
 }
 
@@ -31,7 +31,7 @@ func (r *repository) Create(item *CreateItemRequest) (itemId uuid.UUID, err erro
 	return itemId, err
 }
 
-func (r *repository) Query(params QueryItemsRequest) (items []entity.Item, err error) {
+func (r *repository) Query(params QueryItemsRequest) (items []Item, err error) {
 	query := "SELECT * FROM items"
 	query += fmt.Sprintf(" WHERE merchant_id = '%s'", params.MerchantId)
 
