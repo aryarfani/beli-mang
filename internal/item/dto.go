@@ -32,7 +32,7 @@ type PaginatedQueryItemsResponse struct {
 
 type Item struct {
 	ID         uuid.UUID `json:"itemId"`
-	MerchantId string    `json:"merchantId" db:"merchant_id"`
+	MerchantId string    `json:"-" db:"merchant_id"`
 	Name       string    `json:"name"`
 	Category   string    `json:"productCategory" db:"category"`
 	Price      int       `json:"price"`

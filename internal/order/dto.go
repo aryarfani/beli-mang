@@ -141,7 +141,7 @@ type OrderResp struct {
 type ItemResp struct {
 	Name      string    `json:"name"`
 	Price     int       `json:"price"`
-	ItemID    string    `json:"item_id"`
+	ItemID    string    `json:"id"`
 	Category  string    `json:"category"`
 	Quantity  int       `json:"quantity"`
 	ImageURL  string    `json:"image_url"`

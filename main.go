@@ -11,7 +11,6 @@ import (
 	"beli-mang/internal/order"
 	"beli-mang/internal/user"
 	"errors"
-	"fmt"
 	"log"
 
 	"github.com/goccy/go-json"
@@ -74,11 +73,7 @@ func appErrorHandler(ctx *fiber.Ctx, err error) error {
 		})
 	}
 
-	err = ctx.Status(code).SendFile(fmt.Sprintf("./%d.html", code))
-	if err != nil {
-		// In case the SendFile fails
-		return ctx.Status(fiber.StatusInternalServerError).SendString("Internal Server Error")
-	}
-
-	return nil
+	return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+		"error": err.Error(),
+	})
 }

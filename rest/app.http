@@ -2,7 +2,7 @@
 # @baseUrl = http://54.169.172.228:8080
 @baseUrl = http://127.0.0.1:8080
 @adminToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMjQ4NDM2YWEtNzkwOS00NGZjLThkNmItMWZkZTZlYjFkZjZmIiwiZXhwIjoxNzI2MDcyMDU1fQ.f6qqIWDBqHvYbvD5qzTNwMMLyGt9xInTik2e7m_HECA
-@userToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiOGM5N2ZiZmEtZTliNC00ZGZlLTlkMWItY2I4MDhhNmNkYzQ3IiwiZXhwIjoxNzI1OTc0NDU1fQ.af32n8U5kQOlo4YI5xgX-0QPfmeCl95KPGcWGssYrfM
+@userToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZWJhZTg5MjQtNjg1MC00NzMyLWI5M2QtMGIwYjQyYzg0MzkxIiwiZXhwIjoxNzI2NDU2MjY3fQ.ImHmVYszYCHrQLJz0CFPMwKt6wdz-aWt29trUNFX8fs
 
 ### livez
 GET {{baseUrl}}/livez
@@ -91,7 +91,7 @@ Authorization: Bearer {{ adminToken }}
 
 ### create merchant items
 
-@merchantId = fc63bac9-3938-4931-8570-620525fd1b63
+@merchantId = df007cdd-f9ea-42b5-904b-b7cf736b1e0a
 POST {{baseUrl}}/admin/merchants/{{merchantId}}/items
 Content-Type: application/json
 Authorization: Bearer {{ adminToken }}
@@ -111,8 +111,9 @@ Authorization: Bearer {{ adminToken }}
 
 ### query merchants nearby
 
+# GET {{baseUrl}}/merchants/nearby/a,b
 # GET {{baseUrl}}/merchants/nearby/a/b
-GET {{baseUrl}}/merchants/nearby/0.5499761,0.69128513
+GET {{baseUrl}}/merchants/nearby/0.10592684,0.105368234
 # ?limit=5
 # &offset=0
 ?name=a
@@ -134,25 +135,25 @@ Authorization: Bearer {{ userToken }}
     },
     "orders": [
         {
-            "merchantId": "591407a8-69b3-416b-91ee-8ff830c54f78",
+            "merchantId": "7607c212-4d64-4a48-a5a8-7d5586adaf79",
             "isStartingPoint" : true,
             "items": [
                 {
-                    "itemId": "3723339f-ccf0-4dcc-a337-286ba422cb68",
+                    "itemId": "3dbfad3e-96ec-4f4d-ae70-64b38e5d9ede",
                     "quantity": 2
                 },
                 {
-                    "itemId": "88103a0a-5c5f-4bb5-9421-554dc3ed32ee",
+                    "itemId": "150c7814-625e-49bb-96a7-fc7cb06c7fb7",
                     "quantity": 1
                 }
             ]
         },
         {
-            "merchantId": "1593bb3c-a3c5-462a-b6bf-4059ce55e99b",
+            "merchantId": "9550270e-f9c4-494c-a6c3-89cbb8e8a22e",
             "isStartingPoint" : false,
             "items": [
                 {
-                    "itemId": "a5f4d807-6093-4972-a3df-5635265145c2",
+                    "itemId": "d360ade4-d485-4fa9-a257-f8fd1a84314f",
                     "quantity": 2
                 }
             ]

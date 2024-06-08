@@ -44,8 +44,12 @@ func StringToInt(data string) int {
 }
 
 // StringToFloat ...
-func StringToFloat(data string, bitize int) float64 {
-	res, err := strconv.ParseFloat(data, bitize)
+func StringToFloat(data string, bitSize ...int) float64 {
+	size := 64
+	if len(bitSize) > 0 {
+		size = bitSize[0]
+	}
+	res, err := strconv.ParseFloat(data, size)
 	if err != nil {
 		res = 0
 	}

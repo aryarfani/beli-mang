@@ -3,6 +3,7 @@ package merchant
 import (
 	"beli-mang/internal/helper"
 	"beli-mang/internal/middleware"
+	"beli-mang/pkg/str"
 	"strings"
 
 	"github.com/gofiber/fiber/v2"
@@ -62,6 +63,13 @@ func (resource resource) queryNearby(c *fiber.Ctx) error {
 	if len(locationSplit) != 2 {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "Invalid location format",
+		})
+	}
+
+	// validate latitude is float
+	if val := str.StringToFloat(locationSplit[0]); val == 0 {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Invalid latitude format",
 		})
 	}
 

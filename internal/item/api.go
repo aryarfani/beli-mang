@@ -30,14 +30,14 @@ func (resource resource) create(c *fiber.Ctx) error {
 	req.MerchantId = c.Params("merchantId")
 	fmt.Println(c.Params("merchantId"))
 
-	token, err := resource.service.Create(req)
+	itemId, err := resource.service.Create(req)
 	if err != nil {
 		return err
 	}
 
 	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
 		"message": "Item created successfully",
-		"token":   token,
+		"itemId":   itemId,
 	})
 }
 

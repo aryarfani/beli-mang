@@ -115,24 +115,13 @@ func (r *repository) Query(params QueryOrdersRequest) (resp []QueryOrdersRespons
 				jsonb_build_object(
 					'merchant', (m.*),
 					'items', (
-								SELECT
-										jsonb_agg(
-											json_build_object(
-												'item_id', i.id,
-												'name', i.name,
-												'category', i.category,
-												'price', i.price,
-												'quantity', oi.quantity,
-												'image_url', i.image_url,
-												'created_at', i.created_at
-											)
-										)
+								SELECT jsonb_agg(i.*)
 								FROM
 									order_items oi
 									JOIN items i ON oi.item_id = i.id
 									AND oi.order_id = o.id
-								)
 							)
+					)
 			) orders
 		FROM
 			estimations e
