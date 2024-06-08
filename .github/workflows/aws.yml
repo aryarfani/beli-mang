@@ -7,8 +7,8 @@ on:
 env:
   AWS_REGION: ap-southeast-1
   ECR_REPOSITORY: iwasbornalone-repository
-  ECS_SERVICE: projectsprint-iwasbornalone-service
-  ECS_CLUSTER: projectsprint-cluster
+  ECS_SERVICE: iwasbornalone-service
+  ECS_CLUSTER: projectsprint
 
 permissions:
   contents: read
