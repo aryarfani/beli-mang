@@ -9,8 +9,6 @@ env:
   ECR_REPOSITORY: iwasbornalone-repository
   ECS_SERVICE: iwasbornalone-service
   ECS_CLUSTER: projectsprint
-  ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-  IMAGE_TAG: ${{ github.sha }}
 
 permissions:
   contents: read
@@ -38,6 +36,9 @@ jobs:
 
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
         run: |
           # Build a docker container and
           # push it to ECR so that it can
@@ -47,6 +48,9 @@ jobs:
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
       - name: Update ECS service with new image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
         run: |
           # Get the current task definition
           TASK_DEFINITION=$(aws ecs describe-services --cluster ${{ env.ECS_CLUSTER }} --services ${{ env.ECS_SERVICE }} --query 'services[0].taskDefinition' --output text)
