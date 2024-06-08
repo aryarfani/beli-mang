@@ -46,6 +46,10 @@ func main() {
 }
 
 func registerHandlers(app *fiber.App, configs config.Configs) {
+	app.Get("/", func(ctx *fiber.Ctx) error {
+		return ctx.SendString("Beli, Mang!")
+	})
+
 	user.RegisterHandlers(app, user.NewService(user.NewRepository(configs.DB)))
 	admin.RegisterHandlers(app, admin.NewService(admin.NewRepository(configs.DB)))
 	image.RegisterHandlers(app, image.NewService(&configs.S3Config))
