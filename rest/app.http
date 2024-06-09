@@ -2,7 +2,7 @@
 # @baseUrl = http://54.169.172.228:8080
 @baseUrl = http://127.0.0.1:8080
 @adminToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMjQ4NDM2YWEtNzkwOS00NGZjLThkNmItMWZkZTZlYjFkZjZmIiwiZXhwIjoxNzI2MDcyMDU1fQ.f6qqIWDBqHvYbvD5qzTNwMMLyGt9xInTik2e7m_HECA
-@userToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZWJhZTg5MjQtNjg1MC00NzMyLWI5M2QtMGIwYjQyYzg0MzkxIiwiZXhwIjoxNzI2NDU2MjY3fQ.ImHmVYszYCHrQLJz0CFPMwKt6wdz-aWt29trUNFX8fs
+@userToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMWQzYWI5Y2YtNGQ1NS00NjQ3LWFhYjktYzYzYTg2MTQ0Y2RmIiwiZXhwIjoxNzI2NTQ0Mjk3fQ.Kai54PxZSNkZXwTNEv6_ywmvNunlWXlcxpMpwWJveOM
 
 ### livez
 GET {{baseUrl}}/livez
@@ -128,39 +128,7 @@ POST {{baseUrl}}/users/estimate
 Content-Type: application/json
 Authorization: Bearer {{ userToken }}
 
-{
-    "userLocation": {
-        "lat": -7.815983339324898,
-        "long": 112.02252475285638
-    },
-    "orders": [
-        {
-            "merchantId": "7607c212-4d64-4a48-a5a8-7d5586adaf79",
-            "isStartingPoint" : true,
-            "items": [
-                {
-                    "itemId": "3dbfad3e-96ec-4f4d-ae70-64b38e5d9ede",
-                    "quantity": 2
-                },
-                {
-                    "itemId": "150c7814-625e-49bb-96a7-fc7cb06c7fb7",
-                    "quantity": 1
-                }
-            ]
-        },
-        {
-            "merchantId": "9550270e-f9c4-494c-a6c3-89cbb8e8a22e",
-            "isStartingPoint" : false,
-            "items": [
-                {
-                    "itemId": "d360ade4-d485-4fa9-a257-f8fd1a84314f",
-                    "quantity": 2
-                }
-            ]
-        }
-    ]
-}
-
+{"userLocation":{"lat":0.9935889,"long":0.15933505},"orders":[{"merchantId":"b633f863-184b-4eac-abbf-e9b7f5b21be3","isStartingPoint":true,"items":[{"itemId":"invalid","quantity":1}]},{"merchantId":"d25ccae0-f23e-4214-af77-e9f4efc5c19a","isStartingPoint":false,"items":[{"itemId":"invalid","quantity":1}]},{"merchantId":"7a996009-9bb4-458d-956c-4f2240ce8ac1","isStartingPoint":false,"items":[{"itemId":"invalid","quantity":1}]},{"merchantId":"795029a6-e77e-4c80-9ca1-01d904368879","isStartingPoint":false,"items":[{"itemId":"invalid","quantity":1}]},{"merchantId":"4747f86c-14dd-48d3-b049-ce680f7cafdc","isStartingPoint":false,"items":[{"itemId":"invalid","quantity":1}]},{"merchantId":"1c009d79-b50b-493b-ad55-67d3f5ede8dc","isStartingPoint":false,"items":[{"itemId":"invalid","quantity":1}]},{"merchantId":"28b2d19f-fd7f-4474-803d-ea9e5f2251d8","isStartingPoint":false,"items":[{"itemId":"invalid","quantity":1}]},{"merchantId":"675b3a53-2439-48ec-b071-69b7eb47afa5","isStartingPoint":false,"items":[{"itemId":"invalid","quantity":1}]},{"merchantId":"d9b60fa1-e56e-40c9-8e9f-bf9d8ab0a4c8","isStartingPoint":false,"items":[{"itemId":"invalid","quantity":1}]}]}
 ### create users orders (from estimate)
 
 POST {{baseUrl}}/users/orders

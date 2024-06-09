@@ -3,6 +3,8 @@ package order
 import (
 	"beli-mang/internal/helper"
 	"beli-mang/internal/middleware"
+	"fmt"
+	"log"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
@@ -39,18 +41,23 @@ func (resource resource) createEstimate(c *fiber.Ctx) error {
 
 	if startingPointCount != 1 {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"error": "Order must have only one starting point",
+			"error": fmt.Sprintf("only one merchant can be a starting point, found %d", startingPointCount),
 		})
 	}
 
 	userId := c.Locals("user_id").(uuid.UUID)
 	orders := req.ToOrders(userId)
+	if len(orders) == 0 {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"error": "all orders id are invalid",
+		})
+	}
 	resp, err := resource.service.Create(orders, req)
 	if err != nil {
 		return err
 	}
 
-	return c.Status(fiber.StatusCreated).JSON(resp)
+	return c.Status(fiber.StatusOK).JSON(resp)
 }
 
 func (resource resource) createOrder(c *fiber.Ctx) error {

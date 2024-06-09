@@ -35,6 +35,9 @@ func (s *service) Query(params QueryItemsRequest) (resp PaginatedQueryItemsRespo
 	if err != nil {
 		return resp, err
 	}
+	if items == nil {
+		items = []Item{}
+	}
 
 	total, err := s.repo.Count(params)
 	if err != nil {

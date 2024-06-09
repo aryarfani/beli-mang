@@ -5,6 +5,7 @@ import (
 	"log"
 	"math"
 
+	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 )
 
@@ -58,7 +59,12 @@ func (s *service) Create(orders []entity.Order, req CreateEstimationRequest) (re
 	var startingMerchantId uuid.UUID
 	for _, order := range req.Orders {
 		if order.IsStartingPoint {
-			startingMerchantId = order.MerchantId
+			uuid, err := uuid.Parse(order.MerchantId)
+			if err != nil {
+				return resp, fiber.NewError(fiber.StatusBadRequest, "invalid merchant starting point id")
+			}
+
+			startingMerchantId = uuid
 		}
 	}
 
@@ -131,7 +137,6 @@ func (s *service) getDeliveryTime(orders []entity.Order, startingMerchantId uuid
 	if err != nil {
 		return 0, err
 	}
-	log.Println("merchants", merchants)
 
 	// create merchant map for faster search
 	var merchantsMap = make(map[uuid.UUID]entity.Merchant)
