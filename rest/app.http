@@ -2,7 +2,7 @@
 # @baseUrl = http://54.169.172.228:8080
 @baseUrl = http://127.0.0.1:8080
 @adminToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMjQ4NDM2YWEtNzkwOS00NGZjLThkNmItMWZkZTZlYjFkZjZmIiwiZXhwIjoxNzI2MDcyMDU1fQ.f6qqIWDBqHvYbvD5qzTNwMMLyGt9xInTik2e7m_HECA
-@userToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNTgyMTVlNzMtZjJmZC00NzdhLWFhYjItMmUwNGJlMDI0NjhiIiwiZXhwIjoxNzI2NTY0ODYzfQ.MmKL8rDpvm0scXB6gssILur1iupQA97hrLSJtZQRVa0
+@userToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYTYzY2M0N2EtYTdmZS00ZWI2LWJkN2EtNDk5MmZlMGI1OWNjIiwiZXhwIjoxNzI2NTcyMTQ1fQ.WUPIlKC20oOrw29WjCvhzmD-tSRydM_VKvYQ-yUtbAM
 
 ### livez
 GET {{baseUrl}}/livez
@@ -24,7 +24,7 @@ POST {{baseUrl}}/users/login
 Content-Type: application/json
 
 {
-    "username": "Bennaan2953",
+    "username": "Jendravin3148",
     "password" : "secret123"
 }
 
@@ -142,9 +142,9 @@ Authorization: Bearer {{ userToken }}
 ### query orders
 
 GET {{baseUrl}}/users/orders
-# ?limit=10
+?limit=10
 # &offset=0
 # &name=kentang
-# &merchantCategory=MediumRestaurant
+&merchantCategory=BoothKiosk
 Content-Type: application/json
 Authorization: Bearer {{ userToken }}

@@ -95,7 +95,7 @@ func (r *repository) GetMerchants(itemIds []uuid.UUID) (merchants []entity.Merch
 }
 
 func (r *repository) CreateOrder(req CreateOrderRequest) (orderId uuid.UUID, err error) {
-	query := "UPDATE orders SET estimation_id = null WHERE estimation_id = $1 RETURNING id"
+	query := "UPDATE estimations SET is_ordered = true WHERE id = $1 RETURNING id"
 	err = r.db.QueryRowx(query, req.CalculatedEstimateId).Scan(&orderId)
 	return orderId, err
 }
@@ -148,6 +148,7 @@ func (r *repository) Query(params QueryOrdersRequest) (resp []QueryOrdersRespons
 			LEFT JOIN order_items oi ON oi.order_id = o.id
 			LEFT JOIN items i ON oi.item_id = i.id
 		WHERE 1=1
+			AND e.is_ordered = true
 	`
 	query += fmt.Sprintf("AND o.user_id = '%s'", params.UserId)
 
@@ -171,8 +172,6 @@ func (r *repository) Query(params QueryOrdersRequest) (resp []QueryOrdersRespons
 	}
 
 	query += fmt.Sprintf(" GROUP BY e.id LIMIT %d OFFSET %d", limit, offset)
-	fmt.Println(query)
-
 	var queryResults []QueryResult
 	err = r.db.Select(&queryResults, query)
 

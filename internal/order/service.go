@@ -2,7 +2,6 @@ package order
 
 import (
 	"beli-mang/internal/entity"
-	"log"
 	"math"
 
 	"github.com/gofiber/fiber/v2"
@@ -69,7 +68,6 @@ func (s *service) Create(orders []entity.Order, req CreateEstimationRequest) (re
 	}
 
 	deliveryTime, err := s.getDeliveryTime(orders, startingMerchantId, req.UserLocation)
-	log.Println("delivery time", deliveryTime)
 	if err != nil {
 		return resp, err
 	}
@@ -167,8 +165,10 @@ func (s *service) getDeliveryTime(orders []entity.Order, startingMerchantId uuid
 	route = append(route, Location(userLocation))
 
 	// Calculate the total distance of the route
-	totalDistance := getTotalDistance(route)
-	log.Println("totalDistance", totalDistance)
+	totalDistance, err := getTotalDistance(route)
+	if err != nil {
+		return 0, err
+	}
 
 	// Calculate the time in minutes
 	deliverySpeed := 40.0 //Km per hour
@@ -207,12 +207,17 @@ func nearestNeighbor(current entity.Merchant, merchants []entity.Merchant, visit
 	return nearest
 }
 
-// Calculate the total distance of the route
-func getTotalDistance(route []Location) float64 {
-	totalDist := 0.0
+// Calculate the total distance of the route in Km
+func getTotalDistance(route []Location) (totalDistance float64, err error) {
 	for i := 0; i < len(route)-1; i++ {
-		log.Println("route", route[i].Lat, route[i].Long, route[i+1].Lat, route[i+1].Long)
-		totalDist += haversine(route[i].Lat, route[i].Long, route[i+1].Lat, route[i+1].Long)
+		distance := haversine(route[i].Lat, route[i].Long, route[i+1].Lat, route[i+1].Long)
+		totalDistance += distance
+
+		// validate distance is not more than 3Km
+		if distance > 3 {
+			return distance, fiber.NewError(fiber.StatusBadRequest, "Merchant is too far away")
+		}
 	}
-	return totalDist
+
+	return totalDistance, nil
 }

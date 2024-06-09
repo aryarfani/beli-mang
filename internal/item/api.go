@@ -3,7 +3,6 @@ package item
 import (
 	"beli-mang/internal/helper"
 	"beli-mang/internal/middleware"
-	"fmt"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -28,8 +27,6 @@ func (resource resource) create(c *fiber.Ctx) error {
 		})
 	}
 	req.MerchantId = c.Params("merchantId")
-	fmt.Println(c.Params("merchantId"))
-
 	itemId, err := resource.service.Create(req)
 	if err != nil {
 		return err
@@ -37,7 +34,7 @@ func (resource resource) create(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
 		"message": "Item created successfully",
-		"itemId":   itemId,
+		"itemId":  itemId,
 	})
 }
 

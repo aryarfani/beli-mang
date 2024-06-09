@@ -60,8 +60,6 @@ func (r *repository) Query(params QueryItemsRequest) (items []Item, err error) {
 	}
 
 	query += fmt.Sprintf(" LIMIT %d OFFSET %d", limit, offset)
-	fmt.Println(query)
-
 	err = r.db.Select(&items, query)
 	return items, err
 }
