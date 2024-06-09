@@ -75,6 +75,7 @@ jobs:
               requiresCompatibilities: .requiresCompatibilities,
               cpu: .cpu,
               memory: .memory
+              runtimePlatform: .runtimePlatform
             }')
 
           # Write the new task definition JSON to a file

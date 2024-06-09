@@ -122,8 +122,8 @@ func (s *service) getTotalPrice(orders []entity.Order) (totalPrice int, err erro
 }
 
 type Location struct {
-	Lat  float64
-	Long float64
+	Lat  float64 `json:"lat"`
+	Long float64 `json:"long"`
 }
 
 func (s *service) getDeliveryTime(orders []entity.Order, startingMerchantId uuid.UUID, userLocation UserLocation) (timeInMinutes int, err error) {
@@ -159,10 +159,7 @@ func (s *service) getDeliveryTime(orders []entity.Order, startingMerchantId uuid
 	current := start
 	for len(route) < len(merchants) {
 		nearest := nearestNeighbor(current, merchants, visited)
-		route = append(route, Location{
-			nearest.Latitude,
-			nearest.Longitude,
-		})
+		route = append(route, Location{nearest.Latitude, nearest.Longitude})
 		visited[nearest.Name] = true
 		current = nearest
 	}
@@ -214,6 +211,7 @@ func nearestNeighbor(current entity.Merchant, merchants []entity.Merchant, visit
 func getTotalDistance(route []Location) float64 {
 	totalDist := 0.0
 	for i := 0; i < len(route)-1; i++ {
+		log.Println("route", route[i].Lat, route[i].Long, route[i+1].Lat, route[i+1].Long)
 		totalDist += haversine(route[i].Lat, route[i].Long, route[i+1].Lat, route[i+1].Long)
 	}
 	return totalDist

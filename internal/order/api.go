@@ -4,7 +4,6 @@ import (
 	"beli-mang/internal/helper"
 	"beli-mang/internal/middleware"
 	"fmt"
-	"log"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"

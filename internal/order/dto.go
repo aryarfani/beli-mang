@@ -97,19 +97,20 @@ type OrderResp struct {
 type ItemResp struct {
 	Name      string    `json:"name"`
 	Price     int       `json:"price"`
-	ItemID    string    `json:"id"`
-	Category  string    `json:"category"`
+	ItemID    string    `json:"itemId"`
+	Category  string    `json:"productCategory"`
 	Quantity  int       `json:"quantity"`
-	ImageURL  string    `json:"image_url"`
-	CreatedAt time.Time `json:"created_at"`
+	ImageURL  string    `json:"imageUrl"`
+	CreatedAt time.Time `json:"createdAt"`
 }
 
 type MerchantResp struct {
-	ID        string    `json:"id"`
+	ID        string    `json:"merchantId"`
 	Name      string    `json:"name"`
-	Category  string    `json:"category"`
+	Category  string    `json:"merchantCategory"`
 	Latitude  float64   `json:"latitude"`
-	ImageURL  string    `json:"image_url"`
+	ImageURL  string    `json:"imageUrl"`
 	Longitude float64   `json:"longitude"`
-	CreatedAt time.Time `json:"created_at"`
+	CreatedAt time.Time `json:"createdAt"`
+	Location  Location  `json:"location"`
 }

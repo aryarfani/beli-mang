@@ -4,7 +4,6 @@ import (
 	"beli-mang/internal/entity"
 	"encoding/json"
 	"fmt"
-	"log"
 	"slices"
 
 	"github.com/google/uuid"
@@ -56,7 +55,6 @@ func (r *repository) Create(orders []entity.Order, estimation entity.Estimation)
 	// insert orders
 	for _, order := range orders {
 		var orderId string
-		log.Println(order.UserId)
 		query := "INSERT INTO orders (user_id, merchant_id, estimation_id) VALUES ($1, $2, $3) RETURNING id"
 		err := tx.QueryRowx(query, order.UserId, order.MerchantId, estimationId).Scan(&orderId)
 		if err != nil {
@@ -113,9 +111,29 @@ func (r *repository) Query(params QueryOrdersRequest) (resp []QueryOrdersRespons
 			e.id order_id,
 			jsonb_agg(
 				jsonb_build_object(
-					'merchant', (m.*),
+					'merchant', (jsonb_build_object(
+						'merchantId', m.id,
+						'name', m.name,
+						'merchantCategory', m.category,
+						'imageUrl', m.image_url,
+						'latitude', m.latitude,
+						'longitude', m.longitude,
+						'createdAt', m.created_at,
+						'location', jsonb_build_object(
+							'lat', m.latitude,
+							'long', m.longitude
+						)
+					)),
 					'items', (
-								SELECT jsonb_agg(i.*)
+								SELECT jsonb_agg(jsonb_build_object(
+									'itemId', i.id,
+									'name', i.name,
+									'price', i.price,
+									'productCategory', i.category,
+									'quantity', oi.quantity,
+									'imageUrl', i.image_url,
+									'createdAt', i.created_at
+								))
 								FROM
 									order_items oi
 									JOIN items i ON oi.item_id = i.id

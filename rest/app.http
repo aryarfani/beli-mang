@@ -2,7 +2,7 @@
 # @baseUrl = http://54.169.172.228:8080
 @baseUrl = http://127.0.0.1:8080
 @adminToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMjQ4NDM2YWEtNzkwOS00NGZjLThkNmItMWZkZTZlYjFkZjZmIiwiZXhwIjoxNzI2MDcyMDU1fQ.f6qqIWDBqHvYbvD5qzTNwMMLyGt9xInTik2e7m_HECA
-@userToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMWQzYWI5Y2YtNGQ1NS00NjQ3LWFhYjktYzYzYTg2MTQ0Y2RmIiwiZXhwIjoxNzI2NTQ0Mjk3fQ.Kai54PxZSNkZXwTNEv6_ywmvNunlWXlcxpMpwWJveOM
+@userToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNTgyMTVlNzMtZjJmZC00NzdhLWFhYjItMmUwNGJlMDI0NjhiIiwiZXhwIjoxNzI2NTY0ODYzfQ.MmKL8rDpvm0scXB6gssILur1iupQA97hrLSJtZQRVa0
 
 ### livez
 GET {{baseUrl}}/livez
@@ -24,7 +24,7 @@ POST {{baseUrl}}/users/login
 Content-Type: application/json
 
 {
-    "username": "user1",
+    "username": "Bennaan2953",
     "password" : "secret123"
 }
 
@@ -128,7 +128,7 @@ POST {{baseUrl}}/users/estimate
 Content-Type: application/json
 Authorization: Bearer {{ userToken }}
 
-{"userLocation":{"lat":0.9935889,"long":0.15933505},"orders":[{"merchantId":"b633f863-184b-4eac-abbf-e9b7f5b21be3","isStartingPoint":true,"items":[{"itemId":"invalid","quantity":1}]},{"merchantId":"d25ccae0-f23e-4214-af77-e9f4efc5c19a","isStartingPoint":false,"items":[{"itemId":"invalid","quantity":1}]},{"merchantId":"7a996009-9bb4-458d-956c-4f2240ce8ac1","isStartingPoint":false,"items":[{"itemId":"invalid","quantity":1}]},{"merchantId":"795029a6-e77e-4c80-9ca1-01d904368879","isStartingPoint":false,"items":[{"itemId":"invalid","quantity":1}]},{"merchantId":"4747f86c-14dd-48d3-b049-ce680f7cafdc","isStartingPoint":false,"items":[{"itemId":"invalid","quantity":1}]},{"merchantId":"1c009d79-b50b-493b-ad55-67d3f5ede8dc","isStartingPoint":false,"items":[{"itemId":"invalid","quantity":1}]},{"merchantId":"28b2d19f-fd7f-4474-803d-ea9e5f2251d8","isStartingPoint":false,"items":[{"itemId":"invalid","quantity":1}]},{"merchantId":"675b3a53-2439-48ec-b071-69b7eb47afa5","isStartingPoint":false,"items":[{"itemId":"invalid","quantity":1}]},{"merchantId":"d9b60fa1-e56e-40c9-8e9f-bf9d8ab0a4c8","isStartingPoint":false,"items":[{"itemId":"invalid","quantity":1}]}]}
+{"userLocation":{"lat":0.22906272,"long":0.21456958},"orders":[{"merchantId":"f5259125-ec2e-4a15-8879-698973c0b410","isStartingPoint":false,"items":[{"itemId":"026b5be1-6f2b-4abb-b6f6-76c7f9f53b70","quantity":1}]},{"merchantId":"09e6cb84-504c-4ad4-88fd-f74802c07f00","isStartingPoint":true,"items":[{"itemId":"1f1d587b-b098-4eb5-b41b-aea07f6e2ede","quantity":5}]},{"merchantId":"8c8d67d2-0265-41e6-a1d1-676463f1940d","isStartingPoint":false,"items":[{"itemId":"9e1f5a63-c5c7-4788-8f2a-6a2fb45639fc","quantity":5},{"itemId":"cd9951ee-6e4d-451e-98fb-2109fbc2a394","quantity":1},{"itemId":"ba11dd1b-5cec-4cbc-908e-7a28f6e9caa8","quantity":4},{"itemId":"2c6bf7ce-4df8-43ff-ade7-1e162cd41c67","quantity":2},{"itemId":"37d538b3-ce6d-47be-ae3e-92dcc1d05172","quantity":5}]},{"merchantId":"32680673-72d5-47a6-9f6b-a4481b5bba55","isStartingPoint":false,"items":[{"itemId":"d10d9b3d-8ad2-4f9e-b242-a62c48298c2b","quantity":4}]},{"merchantId":"88a40184-e782-474f-b400-76bf708b20b3","isStartingPoint":false,"items":[{"itemId":"b71688e7-18c1-4d2e-9ec0-1f94827388d2","quantity":3}]},{"merchantId":"f5c97d77-782e-4877-97a7-0103ef4205e4","isStartingPoint":false,"items":[{"itemId":"4ad4f3e2-9494-4f74-a5be-6310ac9f1c03","quantity":3}]},{"merchantId":"49293457-d31c-446b-8a0e-bc916cccdb1a","isStartingPoint":false,"items":[{"itemId":"7bc05279-a3be-4f8b-b6ef-183104bef3c6","quantity":5}]},{"merchantId":"92fbb8bf-716a-4344-a88e-d33aa7df7bfe","isStartingPoint":false,"items":[{"itemId":"6f87c217-6392-456e-87c2-e3f7302a481a","quantity":4}]},{"merchantId":"8df3eb76-0a5c-47fa-84ea-fd22b803ba81","isStartingPoint":false,"items":[{"itemId":"901e565c-3607-4e8f-b29e-ced68baa8ebd","quantity":1}]}]}
 ### create users orders (from estimate)
 
 POST {{baseUrl}}/users/orders

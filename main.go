@@ -17,7 +17,6 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/healthcheck"
-	"github.com/gofiber/fiber/v2/middleware/logger"
 )
 
 func main() {
@@ -37,7 +36,7 @@ func main() {
 		ErrorHandler: appErrorHandler,
 	})
 
-	app.Use(logger.New())
+	// app.Use(logger.New())
 	app.Use(healthcheck.New())
 
 	registerHandlers(app, configs)
